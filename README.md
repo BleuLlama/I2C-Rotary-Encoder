@@ -15,18 +15,18 @@ Currently, this is only setup out of the box to work with a
 standard Arduino Uno (ATmega 328P) micro.  Other devices will
 require different pin configurations and wirings.
 
-	Encoder Board   	Arduino Pin
-	 CLK 				 D13
-	 DT 				 D12
-	 SW 				 D11
-	 +					 +5V
-	 GND				 Ground
+	Encoder     Arduino Pin
+	 CLK         D13
+	 DT          D12
+	 SW          D11
+	 +           +5V
+	 GND         Ground
 
-	RasPi 		Uno	
-	 SDA 		 A4
-	 SCL 		 A5
-	 5V 		 +5v
-	 GND 		 GND
+	RasPi       Uno	
+	 SDA         A4
+	 SCL         A5
+	 5V          +5v
+	 GND         GND
 
 
 # Setup
@@ -36,8 +36,8 @@ then you are good to go.  In short you need to enable the I2C
 interface, and get the i2C tools and such.
 
 If you need to do this, I would recommend the software install
-procedure
-[https://github.com/akuker/RASCSI/wiki/OLED-Status-Display-(Optional)#Software_Install](over at the RaSCSI project).
+procedure [over at the RaSCSI project](
+https://github.com/akuker/RASCSI/wiki/OLED-Status-Display-%28Optional%29#Software_Install).
 
 
 # Testing
@@ -46,9 +46,10 @@ If you connect this up to your Raspberry Pi, it will appear on I2C
 address 0x42.  This is changeable in the arduino source code.
 
 To verify that it is connected:
-  i2cdetect -y 1
 
-You should see your knob at 0x42
+    i2cdetect -y 1
+
+You should see the knob at address 0x42.
 
 If you do, you can hit the 6 registers to read the values...
 
@@ -56,6 +57,7 @@ Remember that the high bit will be set on the data byte returned,
 so if you read the address out of register 0, it will respond with
 0xC2, even though the address is 0x42. For sanity, the rest of this 
 doc will just ignore that 0x80 bit.
+
 
 # Registers
 
