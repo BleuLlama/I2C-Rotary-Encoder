@@ -2,7 +2,7 @@
 A quick program to put a rotary encoder on the I2C bus.
 
 I created this so that I could noodle around with making a 
-user interface for the [https://github.com/akuker/RASCSI](RaSCSI)
+user interface for the [RaSCSI](https://github.com/akuker/RASCSI)
 project, so that the OLED display it has could do more than just 
 show the current values.
 
