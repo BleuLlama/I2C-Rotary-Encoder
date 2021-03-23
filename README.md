@@ -1,5 +1,7 @@
 # I2C-Rotary-Encoder
-A quick program to put a rotary encoder on the I2C bus.
+A simple arduino script to put a rotary encoder on the I2C bus.
+
+<img src="Images/demo_001.jpg" width="320" height="320"/>
 
 I created this so that I could noodle around with making a 
 user interface for the [RaSCSI](https://github.com/akuker/RASCSI)
@@ -9,11 +11,14 @@ show the current values.
 I'm using a standard rotary encoder board that I had leftover from
 my Pi1541 and Gotek drive modifications.
 
+
 # Connecting
 
 Currently, this is only setup out of the box to work with a
-standard Arduino Uno (ATmega 328P) micro.  Other devices will
-require different pin configurations and wirings.
+standard Arduino Uno or other Arduino with an ATmega328 or
+ATmega168 micro.
+
+Encoder to Arduino
 
 	Encoder     Arduino Pin
 	 CLK         D13
@@ -22,14 +27,20 @@ require different pin configurations and wirings.
 	 +           +5V
 	 GND         Ground
 
-	RasPi       Uno	
+Arduino to Raspberry Pi
+
+	RasPi       Arduino Uno Pin	
 	 SDA         A4
 	 SCL         A5
 	 5V          +5v
 	 GND         GND
 
+Note that other Arduinos and micros (Leonardo/32u4, Mega, etc)
+will likely require different wirings to connect to the I2C bus 
+SDA and SCL pins.
 
-# Setup
+
+# Pi Software Setup
 
 If you already have done the setup for the RaSCSI 'oled_monitor', 
 then you are good to go.  In short you need to enable the I2C 
@@ -40,7 +51,7 @@ procedure [over at the RaSCSI project](
 https://github.com/akuker/RASCSI/wiki/OLED-Status-Display-%28Optional%29#Software_Install).
 
 
-# Testing
+# Trying it out
 
 If you connect this up to your Raspberry Pi, it will appear on I2C
 address 0x42.  This is changeable in the arduino source code.
@@ -50,6 +61,16 @@ To verify that it is connected:
     i2cdetect -y 1
 
 You should see the knob at address 0x42.
+
+         0  1  2  3  4  5  6  7  8  9  a  b  c  d  e  f
+    00:          -- -- -- -- -- -- -- -- -- -- -- -- -- 
+    10: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- 
+    20: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- 
+    30: -- -- -- -- -- -- -- -- -- -- -- -- 3c -- -- -- 
+    40: -- -- 42 -- -- -- -- -- -- -- -- -- -- -- -- -- 
+    50: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- 
+    60: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- 
+    70: -- -- -- -- -- -- -- --  
 
 If you do, you can hit the 6 registers to read the values...
 
