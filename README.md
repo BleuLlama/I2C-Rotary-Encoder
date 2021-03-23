@@ -80,10 +80,23 @@ so if you read the address out of register 0, it will respond with
 doc will just ignore that 0x80 bit.
 
 
+There is a script "example.py" in the Python folder that will
+read the rotation delta (register 3), and button clicks (registers 5 and 4) 
+so you can see how to talk with it.
+
 # Registers
 
 The device has 6 registers that can be read using standard I2C 
-procedures:
+procedures.  Anything outside of this range is undefined.
+
+| Register | Name | Description |
+| --- | --- | --- |
+| 0 | I2C Address | Returns the I2C address of the device (0x42) |
+| 1 | Version | Returns 'S' (0x53) |
+| 2 | Version | Returns 'L' (0x4C) |
+| 3 | Encoder Delta | Returns # clicks CW(+) or ACW(-) since last read |
+| 4 | Button Pressing | Returns 1 if button is pressed, 0 if not |
+| 5 | Button Press Count | Returns # of press-releases since last read |
 
 ## Register 0 - I2C Address
 
