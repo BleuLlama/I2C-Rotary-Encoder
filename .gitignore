@@ -1,5 +1,9 @@
 *swp
 .DS_Store
+*nogit*
+
+junk*
+*junk
 
 # Prerequisites
 *.d
