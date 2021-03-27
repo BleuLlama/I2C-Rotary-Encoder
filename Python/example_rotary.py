@@ -11,9 +11,10 @@ import time
 IRC_REG_ADDR    = 0
 IRC_REG_VS      = 1
 IRC_REG_VL      = 2
-IRC_REG_ROT     = 3
-IRC_REG_BDOWN   = 4
-IRC_REG_BCOUNT  = 5
+IRC_REG_BDOWN   = 3
+IRC_REG_BCOUNT  = 4
+IRC_REG_ROTACW  = 5
+IRC_REG_ROTCW   = 6
 
 i2cbus = smbus.SMBus(1)
 address = 0x42
@@ -35,7 +36,7 @@ def i2c_get( addr, reg ):
 
 while True:
     print( "R:{}  B:{}  BP:{}".format( 
-        i2c_get_signed( address, IRC_REG_ROT ),
+        i2c_get( address, IRC_REG_ROTCW ) - i2c_get( address, IRC_REG_ROTACW ),
         i2c_get( address, IRC_REG_BCOUNT ),
         i2c_get( address, IRC_REG_BDOWN ),
         ) )
