@@ -21,9 +21,9 @@ ATmega168 micro.
 Encoder to Arduino
 
 	Encoder     Arduino Pin
-	 CLK         D13
-	 DT          D12
-	 SW          D11
+     SW          A0
+     DT          A1
+	 CLK         A2
 	 +           +5V
 	 GND         Ground
 
@@ -94,9 +94,10 @@ procedures.  Anything outside of this range is undefined.
 | 0 | I2C Address | Returns the I2C address of the device (0x42) |
 | 1 | Version | Returns 'S' (0x53) |
 | 2 | Version | Returns 'L' (0x4C) |
-| 3 | Encoder Delta | Returns # clicks CW(+) or ACW(-) since last read |
-| 4 | Button Pressing | Returns 1 if button is pressed, 0 if not |
-| 5 | Button Press Count | Returns # of press-releases since last read |
+| 3 | Button Pressing | Returns 1 if button is pressed, 0 if not |
+| 4 | Button Press Count | Returns # of press-releases since last read |
+| 5 | Encoder Delta CW | Returns # clockwise clicks since last read |
+| 6 | Encoder Delta ACW | Returns # anticlockwise clicks since last read |
 
 ## Register 0 - I2C Address
 
@@ -116,34 +117,16 @@ Registers 1 and 2 will always respond with an 'S'(0x53) and an
     i2cget -y 1 0x42 2
 
 
-## Register 3 - Rotary Encoder Delta Accumulator
-
-This returns the number of clicks rotated, as well as direction 
-since the last time it was called.  That is to say that it
-automatically clears the value when you read it, giving just 
-the number of clicks since the previous call.
-
-Clockwise movements will be positive values, and anticlockwise
-movements will be negative values.
-
-They are returned as a signed 7-bit value, as the top bit is 
-always set.  You should read it as an unsigned byte, copy 
-bit 7 to bit 8, then cast it to a signed byte to get the 
-correctly signed value.
-
-    i2cget -y 1 0x42 3
-
-
-## Register 4 - Button Is Being Pressed
+## Register 3 - Button Is Being Pressed
 
 A value of 0x01 indicates that the encoder button is currently
 being pressed.  A value of 0x00 indicates it is not currently 
 being pressed.
 
-    i2cget -y 1 0x42 4
+    i2cget -y 1 0x42 3
 
 
-## Register 5 - Button Press Accumulator
+## Register 4 - Button Press Accumulator
 
 This will return the number of times that the button was pressed, 
 and then released since the last time it was called. That is to 
@@ -151,4 +134,23 @@ say that it
 automatically clears the value when you read it, giving just 
 the number of press-cycles since the previous call.
 
+    i2cget -y 1 0x42 4
+
+
+## Register 5,6 - Rotary Encoder Delta CW/ACW
+
+These return the number of clicks rotated
+since the last time it was called.  That is to say that it
+automatically clears the value when you read it, giving just 
+the number of clicks since the previous call.
+
+Clockwise movements will be returned from register 6, and 
+anticlockwise movements will be returned from register 5.
+
+To get the full number of clicks since the last read:
+
+    (Read Register 5) - (Read Register 6)
+
     i2cget -y 1 0x42 5
+    i2cget -y 1 0x42 6
+
